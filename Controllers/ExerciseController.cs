@@ -31,4 +31,27 @@ public class ExerciseController(ApplicationDbContext context) : ControllerBase
 
         return result;
     }
+
+    /// <summary>
+    /// Show first name and last name of patients who does not have allergies. (null)
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("exercise2")]
+    public async Task<ActionResult<object>> Exercise2()
+    {
+        // SELECT first_name, last_name
+        // FROM patients
+        // where allergies is null;
+
+        var result = await context.Patients
+            .Where(p => p.Allergies == null)
+            .Select(p => new
+            {
+                p.FirstName,
+                p.LastName
+            })
+            .ToListAsync();
+
+        return result;
+    }
 }
