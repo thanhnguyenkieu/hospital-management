@@ -74,4 +74,25 @@ public class ExerciseController(ApplicationDbContext context) : ControllerBase
             .ToListAsync();
         return result;
     }
+    
+    /// <summary>
+    /// Show first name and last name of patients that weight within the range of 100 to 120 (inclusive)
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("exercise4")]
+    public async Task<ActionResult<object>> Exercise4()
+    {
+        // SELECT first_name, last_name
+        // from patients
+        // where weight between 100 and 120;
+        var result = await context.Patients
+            .Where(p => p.Weight >= 100 && p.Weight <= 120)
+            .Select(p => new
+            {
+                p.FirstName,
+                p.LastName
+            })
+            .ToListAsync();
+        return result;
+    }
 }
