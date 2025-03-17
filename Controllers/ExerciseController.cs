@@ -125,6 +125,23 @@ public class ExerciseController(ApplicationDbContext context) : ControllerBase
            .ToListAsync();
         return result;
     }
+    /// <summary>
+    /// Show first name and last name concatinated into one column to show their full name.
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("exercise6")]
+    public async Task<ActionResult<object>> Exercise6()
+    {
+        // select concat(first_name,' ',last_name) as full_name
+        // from patients;
+       var result = await context.Patients
+           .Select(p=> new
+           {
+               FullName = p.FirstName + " " + p.LastName
+           })
+           .ToListAsync();
+        return result;
+    }
     
     
 }
