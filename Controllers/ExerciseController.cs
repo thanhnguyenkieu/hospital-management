@@ -54,4 +54,24 @@ public class ExerciseController(ApplicationDbContext context) : ControllerBase
 
         return result;
     }
+    
+    /// <summary>
+    /// Show first name of patients that start with the letter 'C'
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("exercise3")]
+    public async Task<ActionResult<object>> Exercise3()
+    {
+        // SELECT first_name
+        // from patients
+        // where first_name like 'C%';
+        var result = await context.Patients
+            .Where(p => p.FirstName.StartsWith("C"))
+            .Select(p => new
+            {
+                p.FirstName
+            })
+            .ToListAsync();
+        return result;
+    }
 }
