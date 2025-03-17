@@ -95,4 +95,36 @@ public class ExerciseController(ApplicationDbContext context) : ControllerBase
             .ToListAsync();
         return result;
     }
+    /// <summary>
+    /// Update the patients table for the allergies column. If the patient's allergies is null then replace it with 'NKA'
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("exercise5")]
+    public async Task<ActionResult<object>> Exercise5()
+    {
+        // update patients
+        // set allergies = 'NKA'
+        // where allergies is null;
+        //
+        // select * from patients
+       var patientsToUpdate = await context.Patients
+           .Where(p=>p.Allergies == null)
+            .ToListAsync();
+       foreach (var patient in patientsToUpdate)
+       {
+           patient.Allergies = "NKA";
+       }
+
+       await context.SaveChangesAsync();
+
+       var result = await context.Patients
+           .Select(p => new
+           {
+               p.Allergies
+           })
+           .ToListAsync();
+        return result;
+    }
+    
+    
 }
